@@ -43,7 +43,7 @@ resources:
               unarchive: src=/home/vdbench/vdbench50406.zip dest=/home/vdbench
 
             - name: Label data device
-              command: parted /dev/vdb mklabel
+              command: parted /dev/vdb mklabel gpt
 
             - name: Label data device
               command: parted /dev/vdb mkpart primary 1 100%
