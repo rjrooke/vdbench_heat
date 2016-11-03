@@ -64,7 +64,6 @@ resources:
       security_groups: [ default ]
       block_device_mapping_v2:
         - volume_id: { get_resource: data_volume }
-          device_name: vdb
 
   data_volume:
     type: OS::Cinder::Volume
