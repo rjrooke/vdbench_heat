@@ -42,6 +42,22 @@ resources:
             - name: unzip vdbench files
               unarchive: src=/home/vdbench/vdbench50406.zip dest=/home/vdbench
 
+            - name: Label data device
+              command: parted /dev/vdb mklabel
+
+            - name: Label data device
+              command: parted /dev/vdb mkpart primary 1 100%
+
+            - name: Make new filesystem
+              filesystem: fstype=xfs dev=/dev/vdb1
+
+            - name: Mount new filesystem
+              mount:
+                name: /vdbench_data
+                src: /dev/vdb1
+                fstype: xfs
+                state: present
+
   deploy_vdbench:
     type: OS::Heat::SoftwareDeployment
     properties:
