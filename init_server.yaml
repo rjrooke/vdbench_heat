@@ -33,8 +33,9 @@ resources:
 
             - name: Install vdbench
               get_url:
-                - url: http://10.0.0.12:8080/v1/AUTH_86ac82c2d0ac407db80403952092f1d1/vdbench/vdbench50406.zip
-                - dest: /home/vdbench
+                url: http://10.0.0.12:8080/v1/AUTH_86ac82c2d0ac407db80403952092f1d1/vdbench/vdbench50406.zip
+                dest: /home/vdbench
+
             - name: unzip vdbench files
               unarchive: src=/home/vdbench/vdbench50406.zip dest=/home/vdbench
 
