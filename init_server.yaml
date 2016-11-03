@@ -56,7 +56,7 @@ resources:
                 name: /vdbench_data
                 src: /dev/vdb1
                 fstype: xfs
-                state: present
+                state: mounted
 
   deploy_vdbench:
     type: OS::Heat::SoftwareDeployment
