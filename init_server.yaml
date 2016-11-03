@@ -31,6 +31,9 @@ resources:
             - name: Create vdbench user
               user: name=vdbench comment='vdbench user'
 
+            - name: Install unzip package
+              yum: name=unzip state=latest
+
             - name: Install vdbench
               get_url:
                 url: http://10.0.0.12:8080/v1/AUTH_86ac82c2d0ac407db80403952092f1d1/vdbench/vdbench50406.zip
