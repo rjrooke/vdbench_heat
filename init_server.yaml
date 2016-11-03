@@ -1,0 +1,60 @@
+heat_template_version: 2016-10-14
+
+description: |
+  Deploy server to prime data volume for vdbench tests
+
+parameters:
+  image_id:
+    type: string
+    default: 8bbc4ea5-fd81-4589-a1fd-5b0df6fa73f3
+  network_id:
+    type: string
+    default: 5a07b7b6-ff46-4885-af74-440f60fc0357
+  server_name:
+    type: string
+    default: vdbench_init_server
+  key_name:
+    type: string
+    default: mykey
+
+resources:
+  vdbench_config:
+    type: OS::Heat::SoftwareConfig
+    properties:
+      group: ansible
+      config: |
+        ---
+        - name: Install vdbench binaries
+          connection: local
+          hosts: localhost
+          tasks:
+            - name: Create vdbench user
+              user: name=vdbench comment='vdbench user'
+
+            - name: Install vdbench
+              get_url:
+                - url: http://10.0.0.12:8080/v1/AUTH_86ac82c2d0ac407db80403952092f1d1/vdbench/vdbench50406.zip
+                - dest: /home/vdbench
+            - name: unzip vdbench files
+              unarchive: src=/home/vdbench/vdbench50406.zip dest=/home/vdbench
+
+  deploy_vdbench:
+    type: OS::Heat::SoftwareDeployment
+    properties:
+      signal_transport: TEMP_URL_SIGNAL
+      config:
+        get_resource: vdbench_config
+      server: { get_resource: server }
+
+  server:
+    type: OS::Nova::Server
+    properties:
+      image: { get_param: image_id }
+      flavor: m1.small
+      networks:
+        - network: { get_param: network_id }
+      key_name: { get_param: key_name }
+      software_config_transport: POLL_TEMP_URL
+      user_data_format: SOFTWARE_CONFIG
+      name: { get_param: server_name }
+      security_groups: [ default ]
