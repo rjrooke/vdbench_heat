@@ -92,7 +92,7 @@ resources:
     properties:
       signal_transport: TEMP_URL_SIGNAL
       config:
-        get_resource: vdbench_script
+        get_resource: vdbench_config
       server: { get_resource: server }
 
   setup_vdbench_config:
@@ -100,7 +100,7 @@ resources:
     depends_on: deploy_vdbench
     properties:
       config:
-        get_resource: vdbench_config
+        get_resource: vdbench_script
       server:
         get_resource: server
 
