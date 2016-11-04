@@ -66,10 +66,10 @@ resources:
 
   vdbench_config:
     type: OS::Heat::SoftwareConfig
-      properties:
-        group: script
-        config:
-          get_file: config_scripts/vdbench_data_device_setup.sh
+    properties:
+      group: script
+      config:
+        get_file: config_scripts/vdbench_data_device_setup.sh
 
   vdbench_run:
     type: OS::Heat::SoftwareConfig
