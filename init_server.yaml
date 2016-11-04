@@ -62,7 +62,7 @@ resources:
                 state: mounted
 
             - name: Set vdbench as owner of filesystem
-              file: path:/vdbench_data owner=vdbench mode=0755
+              file: path=/vdbench_data owner=vdbench mode=0755
 
   vdbench_script:
     type: OS::Heat::SoftwareConfig
