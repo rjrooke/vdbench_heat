@@ -22,47 +22,8 @@ resources:
     type: OS::Heat::SoftwareConfig
     properties:
       group: ansible
-      config: |
-        ---
-        - name: Install vdbench binaries
-          connection: local
-          hosts: localhost
-          tasks:
-            - name: Create vdbench user
-              user: name=vdbench comment='vdbench user'
-
-            - name: Install unzip package
-              yum: name=unzip state=latest
-
-            - name: Install Java
-              yum: name=java-1.8.0-openjdk-headless state=latest
-
-            - name: Install vdbench
-              get_url:
-                url: http://10.0.0.12:8080/v1/AUTH_86ac82c2d0ac407db80403952092f1d1/vdbench/vdbench50406.zip
-                dest: /home/vdbench
-
-            - name: unzip vdbench files
-              unarchive: src=/home/vdbench/vdbench50406.zip dest=/home/vdbench
-
-            - name: Label data device
-              command: parted /dev/vdb mklabel gpt
-
-            - name: Label data device
-              command: parted /dev/vdb mkpart primary 1 100%
-
-            - name: Make new filesystem
-              filesystem: fstype=xfs dev=/dev/vdb1
-
-            - name: Mount new filesystem
-              mount:
-                name: /vdbench_data
-                src: /dev/vdb1
-                fstype: xfs
-                state: mounted
-
-            - name: Set vdbench as owner of filesystem
-              file: path=/vdbench_data owner=vdbench mode=0755
+      config:
+        get_file: config_scripts/setup_vdbench.yaml
 
   vdbench_script:
     type: OS::Heat::SoftwareConfig
