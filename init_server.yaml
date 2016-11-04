@@ -106,7 +106,7 @@ resources:
 
   execute_vdbench:
     type: OS::Heat::SoftwareDeployment
-    depends_on: setup_vdbench_config
+    depends_on: [ deploy_vdbench, setup_vdbench_config ]
     properties:
       signal_transport: TEMP_URL_SIGNAL
       config:
