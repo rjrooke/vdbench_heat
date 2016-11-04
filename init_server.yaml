@@ -34,6 +34,9 @@ resources:
             - name: Install unzip package
               yum: name=unzip state=latest
 
+            - name: Install Java
+              yum: java-1.8.0-openjdk-headless state=latest
+
             - name: Install vdbench
               get_url:
                 url: http://10.0.0.12:8080/v1/AUTH_86ac82c2d0ac407db80403952092f1d1/vdbench/vdbench50406.zip
@@ -58,12 +61,56 @@ resources:
                 fstype: xfs
                 state: mounted
 
+            - name: Set vdbench as owner of filesystem
+              file: path:/vdbench_data owner=vdbench mode=0755
+
+  vdbench_config:
+    type: OS::Heat::SoftwareConfig
+      properties:
+        group: script
+        config:
+          get_file: config_scripts/vdbench_data_device_setup.sh
+
+  vdbench_run:
+    type: OS::Heat::SoftwareConfig
+    properties:
+      group: ansible
+      config: |
+        ---
+        - name: Run vdbench init script
+          connection: local
+          hosts: localhost
+          tasks:
+            - name: Set permissions on vdbench configuration
+              file: path=/home/vdbench/vdbench_data_init.vdb user=vdbench
+
+            - name: Execute vdbench
+              command: su - vdbench -c './vdbench -f vdbench_data_init.vdb'
+
   deploy_vdbench:
     type: OS::Heat::SoftwareDeployment
     properties:
       signal_transport: TEMP_URL_SIGNAL
       config:
         get_resource: vdbench_config
+      server: { get_resource: server }
+
+  setup_vdbench_config:
+    type: OS::Heat::SoftwareDeployment
+    depends_on: deploy_vdbench
+    properties:
+      config:
+        get_resource: vdbench_run
+      server:
+        get_resource: server
+
+  execute_vdbench:
+    type: OS::Heat::SoftwareDeployment
+    depends_on: setup_vdbench_config
+    properties:
+      signal_transport: TEMP_URL_SIGNAL
+      config:
+        get_resource: vdbench_run
       server: { get_resource: server }
 
   server:
@@ -87,4 +134,4 @@ resources:
     properties:
       description: Data volume for vdbench files
       name: vdbench_data_volume
-      size: 100
+      size: 10
