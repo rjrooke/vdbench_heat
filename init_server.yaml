@@ -6,10 +6,10 @@ description: |
 parameters:
   image_id:
     type: string
-    default: 8bbc4ea5-fd81-4589-a1fd-5b0df6fa73f3
+    default: f8671a26-90ba-4ff7-9261-684cd155b023
   network_id:
     type: string
-    default: 5a07b7b6-ff46-4885-af74-440f60fc0357
+    default: bb3cfb5c-2310-4606-9124-4241be3637ec
   server_name:
     type: string
     default: vdbench_init_server
@@ -97,3 +97,4 @@ resources:
       description: Data volume for vdbench files
       name: vdbench_data_volume
       size: 10
+
