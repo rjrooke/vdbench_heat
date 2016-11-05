@@ -79,7 +79,7 @@ resources:
     type: OS::Nova::Server
     properties:
       image: { get_param: image_id }
-      flavor: m1.small
+      flavor: m1.medium
       networks:
         - network: { get_param: network_id }
       key_name: { get_param: key_name }
