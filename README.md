@@ -9,7 +9,7 @@ in OpenStack.
 * Create SWIFT container (make it public)
 * Enable web listings
 
-    `swift post -m 'web-listings: true' vdbench`
+`swift post -m 'web-listings: true' vdbench`
 
 * Put vdbench.zip in container
 * Add link to vdbench.zip to environment file
@@ -20,7 +20,6 @@ in OpenStack.
 * Create heat stack
 
 `openstack stack create -t init_server.yaml init_vdbench`
-
 
 ## Run Benchmarks
 
