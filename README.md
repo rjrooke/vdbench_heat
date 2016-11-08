@@ -3,6 +3,8 @@
 HEAT templates to implement an automated storage benchmark solution using vdbench
 in OpenStack.
 
+**_This is work in progress..._**
+
 ## Preparation
 
 * Download vdbench from Oracle: http://www.oracle.com/technetwork/server-storage/vdbench-downloads-1901681.html

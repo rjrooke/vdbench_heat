@@ -1,0 +1,81 @@
+---
+version: "2.0"
+
+volume_2_image:
+  type: direct
+
+  input:
+    - volume_id
+
+  output:
+    tmp_snapshot_id: <% $.tmp_snapshot_id %>
+
+  tasks:
+    snapshot_volume:
+      action: cinder.volume_snapshots_create
+      input:
+        volume_id: <% $.volume_id %>
+        force: true
+        name: "vdbench_data_snapshot"
+        description: "temporary data volume snapshot"
+      publish:
+        tmp_snap_id: <% task(snapshot_volume).result.id %>
+      on-success:
+        - wait_for_snapshot
+
+    wait_for_snapshot:
+      action: cinder.volume_snapshots_find id=<% $.tmp_snap_id %> status="available"
+      retry:
+        delay: 10
+        count: 10
+      publish:
+        status: <% task(wait_for_snapshot).result.status %>
+      on-success:
+        - create_volume
+
+    create_volume:
+      action: cinder.volumes_create
+      input:
+        size: 10
+        snapshot_id: <% $.tmp_snapshot_id %>
+        name: "vdbench_tmp_data_volume"
+      publish:
+        tmp_volume_id: <% task(create_volume).result.id %>
+      on-success:
+        - wait_for_available
+
+    wait_for_available:
+      action: cinder.volumes_find id=<% $.tmp_volume_id %> status='available'
+      on-success:
+        - upload_volume
+      retry:
+        delay: 10
+        count: 10
+
+    upload_volume:
+      action: cinder.volumes_upload_to_image volume=<% $.tmp_volume_id %> force="true" image_name="vdbench_data_image" container_format="bare" disk_format="qcow2"
+      on-complete:
+        - wait_for_uploading
+
+    wait_for_uploading:
+      action: cinder.volumes_find id=<% $.tmp_volume_id %> status="uploading"
+      on-complete:
+        - wait_for_image_upload
+      retry:
+        delay: 5
+        count: 15
+
+    wait_for_image_upload:
+      action: cinder.volumes_find id=<% $.tmp_volume_id %> status="available"
+      on-complete:
+        - delete_tmp_volume
+        - delete_tmp_snapshot
+      retry:
+        delay: 60
+        count: 10
+
+    delete_tmp_volume:
+      action: cinder.volumes_delete volume_id=<% $.tmp_volume_id %>
+
+    delete_tmp_snapshot:
+      action: cinder.volume_snapshots_create snapshot_id=<% $.tmp_snapshot_id %>
