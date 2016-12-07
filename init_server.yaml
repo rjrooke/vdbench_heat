@@ -51,7 +51,7 @@ resources:
       config:
         get_resource: vdbench_init_script
       server:
-        get_resource: server
+        get_resource: { get_attr: [ server, server_id ] }
 
   execute_vdbench:
     type: OS::Heat::SoftwareDeployment
@@ -60,7 +60,7 @@ resources:
       signal_transport: TEMP_URL_SIGNAL
       config:
         get_resource: vdbench_run_init
-      server: { get_resource: server }
+      server: { get_attr: [ server, server_id ] }
 
   server:
     type: host_w_vdbench.yaml

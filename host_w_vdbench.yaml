@@ -21,9 +21,10 @@ parameters:
     default: link
   user_data_format:
     type: string
+    default:
   software_config_transport:
     type: string
-
+    default:
 
 resources:
   vdbench_install:
@@ -84,3 +85,6 @@ outputs:
   data_volume_id:
     description: Cinder volume with initialized vdbench data
     value: { get_resource: data_volume }
+  server_id:
+    description: ID for server
+    value: { get_resource: server }
