@@ -30,6 +30,8 @@ http://10.0.0.13:8080/v1/AUTH_f475ea5f46dd4689aff57287db44a944/vdbench/vdbench50
 * Update environment file with appropriate values
 * Create heat stack
 ```
+cp examples/vdbench_environment.yaml .
+
 openstack stack create -t init_server.yaml \
 --parameter image_id=<IMAGEID> \
 --parameter network_id=<NETWORKID> \
