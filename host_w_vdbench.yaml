@@ -78,4 +78,4 @@ resources:
 outputs:
   data_volume_id:
     description: Cinder volume with initialized vdbench data
-    value: { get_attr: [ data_volume, id ] }
+    value: { get_resource: data_volume }
