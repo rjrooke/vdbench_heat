@@ -18,24 +18,21 @@ swift post -r '.r:*,.rlistings' vdbench
 ```
 swift upload vdbench50406.zip vdbench
 ```
-* Add link to vdbench.zip to environment file, i.e.:
+* Add link to vdbench.zip to environment file (vdbench_binary), i.e.:
 ```
 http://10.0.0.13:8080/v1/AUTH_f475ea5f46dd4689aff57287db44a944/vdbench/vdbench50406.zip
 ```
-* This template requires an image (IMAGEID) with Ansible hooks, i.e.: https://github.com/rjrooke/heat_w_ansible
-* NETWORKID should be a network with internet access so Ansible can download required packages
+* This template requires an image (image_id) with Ansible hooks, i.e.: https://github.com/rjrooke/heat_w_ansible
+* network_id should be a network with internet access so Ansible can download required packages
 
 ## Prime Data Device
 
-* Update environment file with appropriate values
+* Copy template and update environment file with appropriate values
 * Create heat stack
 ```
 cp examples/vdbench_environment.yaml .
 
-openstack stack create -t init_server.yaml \
---parameter image_id=<IMAGEID> \
---parameter network_id=<NETWORKID> \
-init_vdbench
+openstack stack create -t init_server.yaml -e vdbench_environment.yaml init_vdbench
 ```
 ## Run Benchmarks
 

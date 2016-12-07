@@ -21,20 +21,6 @@ parameters:
     default: link
 
 resources:
-  vdbench_install:
-    type: OS::Heat::SoftwareConfig
-    properties:
-      group: ansible
-      config:
-        get_file: config_scripts/setup_vdbench.yaml
-
-  vdbench_device:
-    type: OS::Heat::SoftwareConfig
-    properties:
-      group: ansible
-      config:
-        get_file: config_scripts/mount_vdbench_data_fs.yaml
-
   vdbench_init_script:
     type: OS::Heat::SoftwareConfig
     properties:
@@ -58,23 +44,6 @@ resources:
             - name: Execute vdbench
               command: su - vdbench -c './vdbench -f vdbench_data_init.vdb'
 
-  install_vdbench:
-    type: OS::Heat::SoftwareDeployment
-    properties:
-      signal_transport: TEMP_URL_SIGNAL
-      config:
-        get_resource: vdbench_install
-      server: { get_resource: server }
-
-  vdbench_data_device:
-    type: OS::Heat::SoftwareDeployment
-    depends_on: install_vdbench
-    properties:
-      signal_transport: TEMP_URL_SIGNAL
-      config:
-        get_resource: vdbench_device
-      server: { get_resource: server }
-
   setup_vdbench_config:
     type: OS::Heat::SoftwareDeployment
     depends_on: install_vdbench
@@ -95,25 +64,10 @@ resources:
       server: { get_resource: server }
 
   server:
-    type: OS::Nova::Server
+    type: host_w_vdbench.yaml
     properties:
-      image: { get_param: image_id }
-      flavor: m1.medium
-      networks:
-        - network: { get_param: network_id }
+      image_id: { get_param: image_id }
+      network_id: { get_param: network_id }
       key_name: { get_param: key_name }
-      software_config_transport: POLL_TEMP_URL
-      user_data_format: SOFTWARE_CONFIG
-      name: { get_param: server_name }
-      security_groups: [ default ]
-      block_device_mapping:
-        - volume_id: { get_resource: data_volume }
-          device_name: vdb
-
-  data_volume:
-    type: OS::Cinder::Volume
-    properties:
-      description: Data volume for vdbench files
-      name: vdbench_data_volume
-      size: 10
-
+      server_name: { get_param: server_name }
+      data_volume: { get_resource: data_volume }
