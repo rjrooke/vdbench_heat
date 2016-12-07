@@ -10,10 +10,10 @@ in OpenStack.
 * Download vdbench from Oracle: http://www.oracle.com/technetwork/server-storage/vdbench-downloads-1901681.html
 * Create SWIFT container (make it public)
 * Enable web listings, allow anonymous access
-    ```
-    swift post -m 'web-listings: true' vdbench
-    swift post -r '.r:*,.rlistings' vdbench
-    ```
+```
+swift post -m 'web-listings: true' vdbench
+swift post -r '.r:*,.rlistings' vdbench
+```
 * Put vdbench.zip in container
 * Add link to vdbench.zip to environment file
 * This template requires an image with Ansible hooks, i.e.: https://github.com/rjrooke/heat_w_ansible
@@ -22,11 +22,11 @@ in OpenStack.
 
 * Update environment file with appropriate values
 * Create heat stack
-    ```
-    openstack stack create -t init_server.yaml \
-    --parameter image_id=<IMAGEID> \
-    --parameter network_id=<NETWORKID> \
-    init_vdbench
-    ```
+```
+openstack stack create -t init_server.yaml \
+--parameter image_id=<IMAGEID> \
+--parameter network_id=<NETWORKID> \
+init_vdbench
+```
 ## Run Benchmarks
 
