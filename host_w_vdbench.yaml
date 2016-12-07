@@ -19,6 +19,8 @@ parameters:
   vdbench_binary:
     type: string
     default: link
+  user_data_format:
+    type: string
 
 resources:
   vdbench_install:
