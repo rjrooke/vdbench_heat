@@ -16,6 +16,9 @@ parameters:
   key_name:
     type: string
     default: mykey
+  vdbench_binary:
+    type: string
+    default: link
 
 resources:
   vdbench_install:
