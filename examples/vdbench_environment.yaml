@@ -1,0 +1,6 @@
+parameters:
+  image_id: e6f820c9-333b-40c8-8588-67e524d436f8
+  network_id: 7bcbe06b-7054-4c36-b2c2-1d6cbffc928e
+  server_name: vdbench_init_server
+  key_name: mykey
+  vdbench_binary: http://10.0.0.5:8080/v1/AUTH_92ca4a873a6b491d8365b518681d06b2/vdbench/vdbench50406.zip
