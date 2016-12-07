@@ -69,4 +69,3 @@ resources:
       network_id: { get_param: network_id }
       key_name: { get_param: key_name }
       server_name: { get_param: server_name }
-      data_volume: { get_resource: data_volume }
