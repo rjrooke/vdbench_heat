@@ -33,9 +33,9 @@ resources:
     properties:
       group: ansible
       config:
-        get_file: config_scripts/setup_vdbench.yaml
+        get_file: config_scripts/mount_vdbench_data_fs.yaml
 
-  vdbench_run_init:
+  vdbench_init_script:
     type: OS::Heat::SoftwareConfig
     properties:
       group: script
