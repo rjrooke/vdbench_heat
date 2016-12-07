@@ -14,9 +14,16 @@ in OpenStack.
 swift post -m 'web-listings: true' vdbench
 swift post -r '.r:*,.rlistings' vdbench
 ```
-* Put vdbench.zip in container
-* Add link to vdbench.zip to environment file
-* This template requires an image with Ansible hooks, i.e.: https://github.com/rjrooke/heat_w_ansible
+* Put vdbench.zip into container
+```
+swift upload vdbench50406.zip vdbench
+```
+* Add link to vdbench.zip to environment file, i.e.:
+```
+http://10.0.0.13:8080/v1/AUTH_f475ea5f46dd4689aff57287db44a944/vdbench/vdbench50406.zip
+```
+* This template requires an image (IMAGEID) with Ansible hooks, i.e.: https://github.com/rjrooke/heat_w_ansible
+* NETWORKID should be a network with internet access so Ansible can download required packages
 
 ## Prime Data Device
 
