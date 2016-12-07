@@ -1,0 +1,22 @@
+- name: Mount vdbench data device
+  connection: local
+  hosts: localhost
+  tasks:
+    - name: Label data device
+      command: parted /dev/vdb mklabel gpt
+
+    - name: Label data device
+      command: parted /dev/vdb mkpart primary 1 100%
+
+    - name: Make new filesystem
+      filesystem: fstype=xfs dev=/dev/vdb1
+
+    - name: Mount new filesystem
+      mount:
+        name: /vdbench_data
+        src: /dev/vdb1
+        fstype: xfs
+        state: mounted
+
+    - name: Set vdbench as owner of filesystem
+      file: path=/vdbench_data owner=vdbench mode=0755
