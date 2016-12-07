@@ -69,3 +69,5 @@ resources:
       network_id: { get_param: network_id }
       key_name: { get_param: key_name }
       server_name: { get_param: server_name }
+      software_config_transport: POLL_TEMP_URL
+      user_data_format: SOFTWARE_CONFIG
