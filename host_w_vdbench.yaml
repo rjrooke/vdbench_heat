@@ -21,6 +21,9 @@ parameters:
     default: link
   user_data_format:
     type: string
+  software_config_transport:
+    type: string
+
 
 resources:
   vdbench_install:
