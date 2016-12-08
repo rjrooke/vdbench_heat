@@ -57,7 +57,7 @@ resources:
       signal_transport: TEMP_URL_SIGNAL
       config:
         get_resource: vdbench_init_script
-      server: { get_resource: server }
+      server: { get_attr: [ server, server_id ] }
 
   vdbench_data_device:
     type: OS::Heat::SoftwareDeployment
