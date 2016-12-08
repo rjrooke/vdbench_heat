@@ -97,6 +97,6 @@ resources:
   attach_volume:
     type: OS::Cinder::VolumeAttachment
     properties:
-      instance_uuid: { get_resource: server }
+      instance_uuid: { get_attr: [ server, server_id ] }
       mountpoint: vdb
       volume_id: { get_resource: data_volume }
