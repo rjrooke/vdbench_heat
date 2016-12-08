@@ -25,9 +25,6 @@ parameters:
   software_config_transport:
     type: string
     default:
-  data_volume:
-    type: string
-    default:
 
 resources:
   vdbench_install:
@@ -37,28 +34,12 @@ resources:
       config:
         get_file: config_scripts/setup_vdbench.yaml
 
-  vdbench_device:
-    type: OS::Heat::SoftwareConfig
-    properties:
-      group: ansible
-      config:
-        get_file: config_scripts/mount_vdbench_data_fs.yaml
-
   install_vdbench:
     type: OS::Heat::SoftwareDeployment
     properties:
       signal_transport: TEMP_URL_SIGNAL
       config:
         get_resource: vdbench_install
-      server: { get_resource: server }
-
-  vdbench_data_device:
-    type: OS::Heat::SoftwareDeployment
-    depends_on: install_vdbench
-    properties:
-      signal_transport: TEMP_URL_SIGNAL
-      config:
-        get_resource: vdbench_device
       server: { get_resource: server }
 
   server:
@@ -73,9 +54,6 @@ resources:
       user_data_format: SOFTWARE_CONFIG
       name: { get_param: server_name }
       security_groups: [ default ]
-      block_device_mapping:
-        - volume_id: { get_param: data_volume }
-          device_name: vdb
 
 outputs:
   server_id:
