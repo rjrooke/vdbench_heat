@@ -47,7 +47,9 @@ resources:
               file: path=/home/vdbench/vdbench_master_config.vdb owner=vdbench
 
             - name: Execute vdbench (quick test)
-              command: su - vdbench -t
+              command: ~/vdbench -t
+              become: true
+              become_user: vdbench
 
   setup_vdbench_config:
     type: OS::Heat::SoftwareDeployment
