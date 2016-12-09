@@ -31,6 +31,9 @@ parameters:
     description: SIze in GB for vdbench data volume
     type: number
     default: 10
+  index:
+    description: Minnion index
+    type: number
 
 resources:
 
