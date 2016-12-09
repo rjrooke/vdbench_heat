@@ -1,0 +1,60 @@
+heat_template_version: 2016-10-14
+
+description: |
+  Deploy vdbench minnion
+
+parameters:
+  image_id:
+    description: Base boot image for vdbench server - should have Ansible hooks
+    type: string
+    default: f8671a26-90ba-4ff7-9261-684cd155b023
+  network_id:
+    description: Private network to host master server and minnions
+    type: string
+    default: bb3cfb5c-2310-4606-9124-4241be3637ec
+  server_name:
+    description: Server name for vdbench master server
+    type: string
+    default: vdbench_master_server
+  key_name:
+    description: Nova key for ssh login to vm
+    type: string
+    default: mykey
+  vdbench_binary:
+    description: Location of vdbench binary - should be http
+    type: string
+    default: link
+  vdbench_data_image:
+    description: Name or ID of primed vdbench data disk image
+    type: string
+  data_volume_size:
+    description: SIze in GB for vdbench data volume
+    type: integer
+    default: 10
+
+resources:
+
+  server:
+    type: host_w_vdbench.yaml
+    properties:
+      image_id: { get_param: image_id }
+      network_id: { get_param: network_id }
+      key_name: { get_param: key_name }
+      server_name: { get_param: server_name }
+      software_config_transport: POLL_TEMP_URL
+      user_data_format: SOFTWARE_CONFIG
+
+  data_volume:
+    type: OS::Cinder::Volume
+    properties:
+      description: Data volume for vdbench files
+      name: vdbench_data_volume
+      image: { get_param: vdbench_data_image }
+      size: { get_param: data_volume_size }
+
+  attach_volume:
+    type: OS::Cinder::VolumeAttachment
+    properties:
+      instance_uuid: { get_attr: [ server, server_id ] }
+      mountpoint: /dev/vdb
+      volume_id: { get_resource: data_volume }

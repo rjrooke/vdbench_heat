@@ -26,12 +26,12 @@ parameters:
     default: link
 
 resources:
-  vdbench_init_script:
+  vdbench_master_script:
     type: OS::Heat::SoftwareConfig
     properties:
       group: script
       config:
-        get_file: config_scripts/vdbench_device_init.sh
+        get_file: config_scripts/vdbench_master.sh
 
   vdbench_run_init:
     type: OS::Heat::SoftwareConfig
@@ -54,7 +54,7 @@ resources:
     properties:
       signal_transport: TEMP_URL_SIGNAL
       config:
-        get_resource: vdbench_init_script
+        get_resource: vdbench_master_script
       server: { get_attr: [ server, server_id ] }
 
   execute_vdbench:

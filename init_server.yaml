@@ -19,6 +19,10 @@ parameters:
   vdbench_binary:
     type: string
     default: link
+  data_volume_size:
+    description: SIze in GB for vdbench data volume
+    type: integer
+    default: 10
 
 resources:
   vdbench_init_script:
@@ -92,7 +96,7 @@ resources:
     properties:
       description: Data volume for vdbench files
       name: vdbench_data_volume
-      size: 10
+      size: { get_param: data_volume_size }
 
   attach_volume:
     type: OS::Cinder::VolumeAttachment
