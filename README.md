@@ -34,5 +34,8 @@ cp examples/vdbench_environment.yaml .
 
 openstack stack create -t init_server.yaml -e vdbench_environment.yaml init_vdbench
 ```
+* Create image of primed data volume for subsequent tests
+    * Automated Mistral workflow
+    * Manual version: ssh to server, unmount fs, upload_to_image
 ## Run Benchmarks
 
