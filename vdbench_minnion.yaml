@@ -33,7 +33,7 @@ parameters:
     default: 10
   index:
     description: Minnion index
-    type: number
+    type: string
 
 resources:
 
