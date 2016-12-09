@@ -44,7 +44,7 @@ resources:
           hosts: localhost
           tasks:
             - name: Set permissions on vdbench configuration
-              file: path=/home/vdbench/vdbench_data_init.vdb owner=vdbench
+              file: path=/home/vdbench/vdbench_master_config.vdb owner=vdbench
 
             - name: Execute vdbench (quick test)
               command: su - vdbench -t
