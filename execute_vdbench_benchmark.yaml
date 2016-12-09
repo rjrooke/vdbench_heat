@@ -1,0 +1,63 @@
+heat_template_version: 2016-10-14
+
+description: |
+  Deploy vdbench master server
+
+parameters:
+  image_id:
+    description: Base boot image for vdbench server - should have Ansible hooks
+    type: string
+    default: f8671a26-90ba-4ff7-9261-684cd155b023
+  network_id:
+    description: Private network to host master server and minnions
+    type: string
+    default: bb3cfb5c-2310-4606-9124-4241be3637ec
+  server_name:
+    description: Server name for vdbench master server
+    type: string
+    default: vdbench_master_server
+  key_name:
+    description: Nova key for ssh login to vm
+    type: string
+    default: mykey
+  vdbench_binary:
+    description: Location of vdbench binary - should be http
+    type: string
+    default: link
+  vdbench_data_image:
+    description: Name or ID of primed vdbench data disk image
+    type: string
+  data_volume_size:
+    description: SIze in GB for vdbench data volume
+    type: integer
+    default: 10
+  minnion_count:
+    description: Number of minnions to create for benchmark
+    type: integer
+    default: 5
+
+resources:
+  # vdbench private network
+
+  # Vdbench Minnions resource group
+  type: OS::Heat::ResourceGroup
+  properties:
+    count: { get_param: minnion_count }
+    index_var: String
+    resource_def:
+      type: vdbench_minnion.yaml
+      properties:
+        index: _%index
+        image_id: { get_param: image_id }
+        network_id: { get_param: network_id }
+        server_name: minnion
+        key_name: { get_param: key_name }
+        vdbench_binary: { get_param: vdbench_binary }
+        vdbench_data_image: { get_param: vdbench_data_image }
+        data_volume_size: { get_param: data_volume_size }
+
+  # vdbench master
+
+  # vdbench floating ip
+
+outputs:

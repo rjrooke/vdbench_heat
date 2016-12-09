@@ -46,8 +46,8 @@ resources:
             - name: Set permissions on vdbench configuration
               file: path=/home/vdbench/vdbench_data_init.vdb owner=vdbench
 
-            - name: Execute vdbench
-              command: su - vdbench -c './vdbench -f vdbench_data_init.vdb'
+            - name: Execute vdbench (quick test)
+              command: su - vdbench -t
 
   setup_vdbench_config:
     type: OS::Heat::SoftwareDeployment
