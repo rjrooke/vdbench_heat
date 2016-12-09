@@ -40,23 +40,32 @@ resources:
   # vdbench private network
 
   # Vdbench Minnions resource group
-  type: OS::Heat::ResourceGroup
-  properties:
-    count: { get_param: minnion_count }
-    index_var: String
-    resource_def:
-      type: vdbench_minnion.yaml
-      properties:
-        index: _%index
-        image_id: { get_param: image_id }
-        network_id: { get_param: network_id }
-        server_name: minnion
-        key_name: { get_param: key_name }
-        vdbench_binary: { get_param: vdbench_binary }
-        vdbench_data_image: { get_param: vdbench_data_image }
-        data_volume_size: { get_param: data_volume_size }
+  minnions:
+    type: OS::Heat::ResourceGroup
+    properties:
+      count: { get_param: minnion_count }
+      index_var: String
+      resource_def:
+        type: vdbench_minnion.yaml
+        properties:
+          index: _%index
+          image_id: { get_param: image_id }
+          network_id: { get_param: network_id }
+          server_name: minnion
+          key_name: { get_param: key_name }
+          vdbench_binary: { get_param: vdbench_binary }
+          vdbench_data_image: { get_param: vdbench_data_image }
+          data_volume_size: { get_param: data_volume_size }
 
   # vdbench master
+  master:
+    type: vdbench_master.yaml
+    properties:
+      image_id: { get_param: image_id }
+      network_id: { get_param: network_id }
+      server_name: vdbench_master
+      key_name: { get_param: key_name }
+      vdbench_binary: { get_param: vdbench_binary }
 
   # vdbench floating ip
 
