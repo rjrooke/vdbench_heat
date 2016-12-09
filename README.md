@@ -38,6 +38,7 @@ openstack stack create -t init_server.yaml -e vdbench_environment.yaml init_vdbe
 * Create image of primed data volume for subsequent tests
     * Automated Mistral workflow
     * Manual version: ssh to server, unmount fs, upload_to_image
+
 ## Run Benchmark
 ```
 openstack stack create -t execute_vdbench_benchmark.yaml \
@@ -45,6 +46,7 @@ openstack stack create -t execute_vdbench_benchmark.yaml \
     --parameter vdbench_data_image=<PRIMED_IMAGE_NAME_OR_ID>
     run_vdbench
 ```
+
 ## Cleanup
 ```
 openstack stack delete run_vdbench
