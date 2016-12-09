@@ -31,7 +31,7 @@ resources:
     properties:
       group: script
       config:
-        get_file: config_scripts/vdbench_master.sh
+        get_file: config_scripts/vdbench_master_config.sh
 
   vdbench_run_init:
     type: OS::Heat::SoftwareConfig
