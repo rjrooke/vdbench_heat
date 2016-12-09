@@ -48,8 +48,8 @@ resources:
 
             - name: Execute vdbench (quick test)
               command: ~/vdbench -t
-              become: true
-              become_user: vdbench
+              sudo: true
+              sudo_user: vdbench
 
   setup_vdbench_config:
     type: OS::Heat::SoftwareDeployment
