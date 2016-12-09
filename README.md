@@ -11,6 +11,7 @@ in OpenStack.
 * Create SWIFT container (make it public)
 * Enable web listings, allow anonymous access
 ```
+swift post vdbench
 swift post -m 'web-listings: true' vdbench
 swift post -r '.r:*,.rlistings' vdbench
 ```
@@ -41,6 +42,12 @@ openstack stack create -t init_server.yaml -e vdbench_environment.yaml init_vdbe
 ```
 openstack stack create -t execute_vdbench_benchmark.yaml \
     -e vdbench_environment.yaml \
-    --parameter vdbench_data_image=654d21d9-4fd7-4c36-bcde-7879a81e937a
+    --parameter vdbench_data_image=<PRIMED_IMAGE_NAME_OR_ID>
     run_vdbench
+```
+## Cleanup
+```
+openstack stack delete run_vdbench
+openstack stack delete init_vdbench
+swift delete vdbench
 ```
