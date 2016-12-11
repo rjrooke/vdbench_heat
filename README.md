@@ -25,6 +25,7 @@ http://10.0.0.13:8080/v1/AUTH_f475ea5f46dd4689aff57287db44a944/vdbench/vdbench50
 ```
 * This template requires an image (image_id) with Ansible hooks, i.e.: https://github.com/rjrooke/heat_w_ansible
 * network_id should be a network with internet access so Ansible can download required packages
+* Templates depend on < Ansbible-1.9
 
 ## Prime Data Device
 
