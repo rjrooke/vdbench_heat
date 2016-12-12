@@ -69,4 +69,7 @@ resources:
 
   # vdbench floating ip
 
+  # TODO: Add security group
+
+  # TODO: ssh keys - try this: https://github.com/openstack/heat-templates/blob/master/hot/software-config/example-templates/example-ssh-copy-id.yaml
 outputs:
