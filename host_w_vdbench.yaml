@@ -25,6 +25,9 @@ parameters:
   software_config_transport:
     type: string
     default:
+  server_flavor:
+    type: string
+    default: m1.medium
 
 resources:
   vdbench_install:
@@ -46,7 +49,7 @@ resources:
     type: OS::Nova::Server
     properties:
       image: { get_param: image_id }
-      flavor: m1.medium
+      flavor: { get_param: server_flavor }
       networks:
         - network: { get_param: network_id }
       key_name: { get_param: key_name }
