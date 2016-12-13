@@ -17,7 +17,7 @@ swift post -r '.r:*,.rlistings' vdbench
 ```
 * Put vdbench.zip into container
 ```
-swift upload vdbench50406.zip vdbench
+swift upload vdbench vdbench50406.zip
 ```
 * Add link to vdbench.zip to environment file (vdbench_binary), i.e.:
 ```
