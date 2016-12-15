@@ -21,7 +21,7 @@ parameters:
     default: link
   data_volume_size:
     description: SIze in GB for vdbench data volume
-    type: integer
+    type: number
     default: 10
 
 resources:
