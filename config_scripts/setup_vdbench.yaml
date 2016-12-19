@@ -1,0 +1,20 @@
+- name: Install vdbench binaries
+  connection: local
+  hosts: localhost
+  tasks:
+    - name: Create vdbench user
+      user: name=vdbench comment='vdbench user'
+
+    - name: Install unzip package
+      yum: name=unzip state=latest
+
+    - name: Install Java
+      yum: name=java-1.8.0-openjdk-headless state=latest
+
+    - name: Install vdbench
+      get_url:
+        url: http://10.0.0.13:8080/v1/AUTH_f475ea5f46dd4689aff57287db44a944/vdbench/vdbench50406.zip
+        dest: /home/vdbench
+
+    - name: unzip vdbench files
+      unarchive: src=/home/vdbench/vdbench50406.zip dest=/home/vdbench
