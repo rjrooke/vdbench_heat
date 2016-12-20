@@ -24,6 +24,9 @@ parameters:
     description: Location of vdbench binary - should be http
     type: string
     default: link
+  server_flavor:
+    type: string
+    default: m1.medium
 
 resources:
   vdbench_master_script:
@@ -77,3 +80,4 @@ resources:
       server_name: { get_param: server_name }
       software_config_transport: POLL_TEMP_URL
       user_data_format: SOFTWARE_CONFIG
+      server_flavor: { get_param: server_flavor }

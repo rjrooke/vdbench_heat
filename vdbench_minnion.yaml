@@ -34,6 +34,9 @@ parameters:
   index:
     description: Minnion index
     type: string
+  server_flavor:
+    type: string
+    default: m1.medium
 
 resources:
 
@@ -46,6 +49,7 @@ resources:
       server_name: { get_param: server_name }
       software_config_transport: POLL_TEMP_URL
       user_data_format: SOFTWARE_CONFIG
+      server_flavor: { get_param: server_flavor }
 
   data_volume:
     type: OS::Cinder::Volume
@@ -61,3 +65,8 @@ resources:
       instance_uuid: { get_attr: [ server, server_id ] }
       mountpoint: /dev/vdb
       volume_id: { get_resource: data_volume }
+
+# TODO: Mount volume
+
+# TODO: Use script deployment to put host key in output (/etc/ssh/ssh_host_ecdsa_key.pub)
+

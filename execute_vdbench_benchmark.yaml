@@ -35,6 +35,10 @@ parameters:
     description: Number of minnions to create for benchmark
     type: number
     default: 5
+  server_flavor:
+    type: string
+    default: m1.medium
+
 
 resources:
   # vdbench private network
@@ -56,6 +60,7 @@ resources:
           vdbench_binary: { get_param: vdbench_binary }
           vdbench_data_image: { get_param: vdbench_data_image }
           data_volume_size: { get_param: data_volume_size }
+          server_flavor: { get_param: server_flavor }
 
   # vdbench master
   master:
@@ -66,11 +71,15 @@ resources:
       server_name: vdbench_master
       key_name: { get_param: key_name }
       vdbench_binary: { get_param: vdbench_binary }
+      server_flavor: { get_param: server_flavor }
 
   # vdbench floating ip
 
   # TODO: Add security group
 
+  # TODO: put mykey.pem on master (.ssh/id_rsa)
+  # TODO: put vdbench in default cloud user dir instead of vdbench
   # TODO: ssh keys - try this: https://github.com/openstack/heat-templates/blob/master/hot/software-config/example-templates/example-ssh-copy-id.yaml
+  # TODO: pull host key from minnions - add to known_hosts on master
 
 outputs:
